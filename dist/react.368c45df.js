@@ -30323,7 +30323,40 @@ try {
   }
 }
 
-},{}],"react/components/Page.js":[function(require,module,exports) {
+},{}],"react/components/PagesList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PagesList = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PagesList = function PagesList(_ref) {
+  var pages = _ref.pages,
+      setIsPageView = _ref.setIsPageView,
+      setPageView = _ref.setPageView;
+
+  var clickHandler = function clickHandler(page) {
+    setIsPageView(true);
+    setPageView(page);
+  };
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, pages.map(function (page, idx) {
+    return /*#__PURE__*/_react.default.createElement("h3", {
+      key: idx,
+      onClick: function onClick() {
+        return clickHandler(page);
+      }
+    }, page.title);
+  }));
+};
+
+exports.PagesList = PagesList;
+},{"react":"../node_modules/react/index.js"}],"react/components/Page.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30335,37 +30368,13 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Page = function Page(props) {
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h3", null, props.page.title));
+var Page = function Page(_ref) {
+  var page = _ref.page;
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h3", null, page.title), /*#__PURE__*/_react.default.createElement("p", null, page.content));
 };
 
 exports.Page = Page;
-},{"react":"../node_modules/react/index.js"}],"react/components/PagesList.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PagesList = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _Page = require("./Page");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PagesList = function PagesList(_ref) {
-  var pages = _ref.pages;
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, pages.map(function (page, idx) {
-    return /*#__PURE__*/_react.default.createElement(_Page.Page, {
-      page: page,
-      key: idx
-    });
-  }));
-};
-
-exports.PagesList = PagesList;
-},{"react":"../node_modules/react/index.js","./Page":"react/components/Page.js"}],"react/api.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"react/api.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30393,6 +30402,8 @@ exports.App = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _PagesList = require("./PagesList");
+
+var _Page = require("./Page");
 
 var _api = _interopRequireDefault(require("../api"));
 
@@ -30425,8 +30436,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var App = function App() {
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      pages = _useState2[0],
-      setPages = _useState2[1];
+      pagesCollection = _useState2[0],
+      setPagesCollection = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isPageView = _useState4[0],
+      setIsPageView = _useState4[1];
+
+  var _useState5 = (0, _react.useState)({}),
+      _useState6 = _slicedToArray(_useState5, 2),
+      pageView = _useState6[0],
+      setPageView = _useState6[1];
 
   function fetchPages() {
     return _fetchPages.apply(this, arguments);
@@ -30450,21 +30471,23 @@ var App = function App() {
 
             case 6:
               pagesData = _context.sent;
-              setPages(pagesData);
-              _context.next = 13;
+              setPagesCollection(pagesData);
+              setAuthorsList();
+              console.log(pagesData);
+              _context.next = 15;
               break;
 
-            case 10:
-              _context.prev = 10;
+            case 12:
+              _context.prev = 12;
               _context.t0 = _context["catch"](0);
               console.log("Oh no an error! ", _context.t0);
 
-            case 13:
+            case 15:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 10]]);
+      }, _callee, null, [[0, 12]]);
     }));
     return _fetchPages.apply(this, arguments);
   }
@@ -30472,13 +30495,20 @@ var App = function App() {
   (0, _react.useEffect)(function () {
     fetchPages();
   }, []);
-  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "WikiVerse"), /*#__PURE__*/_react.default.createElement("h2", null, "An interesting \uD83D\uDCDA"), /*#__PURE__*/_react.default.createElement(_PagesList.PagesList, {
-    pages: pages
-  }));
+  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "WikiVerse"), isPageView ? /*#__PURE__*/_react.default.createElement(_Page.Page, {
+    page: pageView
+  }) : [/*#__PURE__*/_react.default.createElement("h2", {
+    key: 0
+  }, "An Interesting Title"), /*#__PURE__*/_react.default.createElement(_PagesList.PagesList, {
+    key: 1,
+    setPageView: setPageView,
+    setIsPageView: setIsPageView,
+    pages: pagesCollection
+  })]);
 };
 
 exports.App = App;
-},{"react":"../node_modules/react/index.js","./PagesList":"react/components/PagesList.js","../api":"react/api.js"}],"react/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./PagesList":"react/components/PagesList.js","./Page":"react/components/Page.js","../api":"react/api.js"}],"react/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30520,7 +30550,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52066" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58325" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

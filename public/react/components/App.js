@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { PagesList } from './PagesList';
+import { Page } from './Page';
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
 
 export const App = () => {
 
-	const [pages, setPages] = useState([]);
+	const [pagesCollection, setPagesCollection] = useState([]);
+	const [isPageView, setIsPageView] = useState(false)
+	const [pageView, setPageView] = useState({})
+	
 
 	async function fetchPages(){
 		try {
 			const response = await fetch(`${apiURL}/wiki`);
 			const pagesData = await response.json();
-			setPages(pagesData);
+			setPagesCollection(pagesData);
+			setAuthorsList()
+			console.log(pagesData)
 		} catch (err) {
 			console.log("Oh no an error! ", err)
 		}
@@ -25,8 +31,18 @@ export const App = () => {
 	return (
 		<main>	
       <h1>WikiVerse</h1>
-			<h2>An interesting 📚</h2>
-			<PagesList pages={pages} />
+			{
+				isPageView
+				  ? <Page page={pageView}/>
+				  : [<h2 key={0} >An Interesting Title</h2>, 
+				  <PagesList key={1} setPageView={setPageView} setIsPageView={setIsPageView} pages={pagesCollection} />]
+			}
+
+
+
+			 
+			
+			
 		</main>
 	)
 }
