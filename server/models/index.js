@@ -14,7 +14,7 @@ const Page = sequelize.define("page", {
   },
   content: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: true
   },
   status: {
     type: Sequelize.ENUM("open", "closed")

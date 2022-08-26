@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const PagesList = ({pages, setIsPageView, setPageView}) => {
+export const PagesList = ({pages, setPageView, setCurrentPageView}) => {
 	const clickHandler = (page) => {
-		setIsPageView(true)
+		setCurrentPageView(1)
 		setPageView(page)
 	}
 
