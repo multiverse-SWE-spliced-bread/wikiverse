@@ -17,14 +17,12 @@ export const AddPage = ({setCurrentPageView}) => {
                     },
                 body: JSON.stringify(formInputs)
                 
-                
             })
             const data = await response.json()
             console.log(data)
-            console.log(formInputs)
-            let newobj = {}
-            setFormInputs(newobj)
-            console.log(formInputs)
+            
+            setFormInputs({})
+            e.target.reset()
         
         } catch (err) {
             console.log(err)
@@ -42,31 +40,32 @@ export const AddPage = ({setCurrentPageView}) => {
 
     return <div>
         <form id="newPage" onSubmit={sumbitHandler}>
-            <div>
+            <div className="input-group">
                 <label htmlFor="title">Title</label>
                 <input name="title" value={formInputs.title} onChange={onChangeHandler}></input>
             </div>
-            <div>
+            <div className="input-group">
                 <label htmlFor="slug">url_slug</label>
                 <input name="slug" value={formInputs.slug} onChange={onChangeHandler}></input>
             </div>
 
-            <div>
+            <div className="input-group">
                 <label htmlFor="content">content</label>
                 <input name="content" value={formInputs.content} onChange={onChangeHandler}></input>
             </div>
 
-            <div>
+            <div className="input-group">
                 <label htmlFor="name" value={formInputs.name} >name</label>
                 <input name="name" value={formInputs.name} onChange={onChangeHandler}></input>
             </div>
-            <div>
+            <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input name="email" value={formInputs.email} onChange={onChangeHandler}></input>
             </div>
-
-            <button onClick={()=> setCurrentPageView(0)}>Cancel</button>
+            <div className="form-button-group">
             <button form="newPage">Submit</button>
+            <button type="button" onClick={()=> setCurrentPageView(0)}>Back</button>
+            </div>
 
         </form>
     </div>

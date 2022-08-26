@@ -35,11 +35,15 @@ export const App = () => {
 
 	useEffect(() => {
 		fetchPages();
-	},[]);
+	},[currentPageView]);
 
 	return (
 		<main>	
-      <h1>WikiVerse</h1>
+      	<div id="header">
+		  <h1>WikiVerse</h1>
+		</div>
+		
+
 			{
 				currentPageContent[currentPageView]
 			}
